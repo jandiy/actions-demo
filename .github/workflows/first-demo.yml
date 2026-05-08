@@ -1,0 +1,10 @@
+name: first-ci
+
+on: workflow_dispatch
+
+jobs:
+  first-job:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Print 
+        run: echo "Hola Mundo"
