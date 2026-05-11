@@ -18,11 +18,14 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 18
-          
+
       - name: Install dependencies
         run: |
           ls
+          cd angular
           npm ci
 
       - name: Run test
-        run: npm test
+        run: |
+          ls
+          npm test
