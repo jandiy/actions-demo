@@ -9,11 +9,6 @@ jobs:
       - name: Get Code 
         uses: actions/checkout@v3
 
-      - name: Ubicarse en la carpeta
-        run: |
-          ls
-          cd angular
-
       - name: Install NodeJs 
         uses: actions/setup-node@v5
         with:
@@ -27,5 +22,5 @@ jobs:
 
       - name: Run test
         run: |
-          ls
+          cd angular
           npm test
