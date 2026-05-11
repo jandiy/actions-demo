@@ -24,3 +24,21 @@ jobs:
         run: |
           cd angular
           npm test
+
+  deploy:
+    needs: first-job
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get Code 
+        uses: actions/checkout@v3
+
+      - name: Install NodeJs 
+        uses: actions/setup-node@v5
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          ls
+          cd angular
+          npm run build
