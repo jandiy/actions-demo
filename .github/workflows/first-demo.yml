@@ -1,6 +1,10 @@
 name: first-ci
 
-on: push
+on: 
+ push:
+   branches:
+    - main 
+ workflow_dispatch: 
 
 jobs:
   first-job:
@@ -25,21 +29,23 @@ jobs:
           cd angular
           npm test
 
+      - name: Build apk
+        run: |
+          cd angular
+          npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+           name: dist-files
+           path: angular/dist
+
   deploy:
     needs: first-job
     runs-on: ubuntu-22.04
     steps:
-      - name: Get Code 
-        uses: actions/checkout@v3
-
-      - name: Install NodeJs 
-        uses: actions/setup-node@v5
+      - name: Get build artifacts 
+        uses: actions/download-artifact@v3
         with:
-          node-version: 18
+           name: dist-files
 
-      - name: Install dependencies and Run
-        run: |
-          ls
-          cd angular
-          npm ci
-          npm run build
