@@ -119,3 +119,10 @@ jobs:
     uses: ./.github/workflows/reusable-workflow.yml
     with:
       artifact-name: dist-files
+
+  print-result:
+    needs: deploy
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Print vars
+        run: echo "${{ needs.deploy.outputs.outcome }}"

@@ -8,10 +8,15 @@ on:
          required: true
          default: 'dist'
          type: string
+    outputs:
+      outcome: 
+        value: ${{ jobs.deploy.outputs.result }}
 
 jobs:
   deploy:
     runs-on: ubuntu-22.04
+    outputs:
+      result: ${{ steps.result.outputs.setresult }}
     steps:
       - name: Get build artifacts 
         uses: actions/download-artifact@v8
@@ -19,3 +24,6 @@ jobs:
            name: ${{ inputs.artifact-name }}
       - name: Print Env
         run: echo "imprimir variables"
+      - name: Output env
+        id: result
+        run: echo "::set-output name=setresult::success"
