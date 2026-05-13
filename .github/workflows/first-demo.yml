@@ -29,6 +29,7 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
+        if: steps.cache.ouputs.cache-hit != 'true'
         run: |
           ls
           cd angular
@@ -65,11 +66,13 @@ jobs:
           key: deps-node-modules-${{ hashFiles('**/package/lock.json') }}
 
       - name: Install dependencies
+        if: steps.cache.ouputs.cache-hit != 'true'
         run: |
           cd angular
           npm ci
 
       - name: Test code
+        id: test-run
         run: |
           cd angular
           npm run test
@@ -95,6 +98,7 @@ jobs:
           key: deps-node-modules-${{ hashFiles('**/package/lock.json') }}
 
       - name: Install dependencies
+        if: steps.cache.ouputs.cache-hit != 'true'
         run: |
           cd angular
           npm ci
