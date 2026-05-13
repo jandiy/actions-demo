@@ -34,6 +34,12 @@ jobs:
           cd angular
           npm ci
 
+      - name: Lint 
+        run: |
+          ls
+          cd angular
+          npm run lint
+
       - name: Build apk
         run: |
           cd angular
@@ -111,6 +117,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
            name: dist-files
+
       - name: see files
         run: |
           ls
