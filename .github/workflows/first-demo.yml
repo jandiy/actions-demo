@@ -34,11 +34,6 @@ jobs:
           cd angular
           npm ci
 
-      - name: Run test
-        run: |
-          cd angular
-          npm run lint
-
       - name: Build apk
         run: |
           cd angular
@@ -50,7 +45,6 @@ jobs:
 
 
   test:
-    needs: lint
     runs-on: ubuntu-22.04
     steps:
       - name: Get Code 
