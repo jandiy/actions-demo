@@ -1,0 +1,21 @@
+name: reusable deployment
+
+on: 
+  workflow_call:
+    inputs:
+      artifact-name: 
+         description: 'nombre de artefacto'
+         required: true
+         default: 'dist'
+         type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get build artifacts 
+        uses: actions/download-artifact@v8
+        with:
+           name: ${{ inputs.artifact-name }}
+      - name: Print Env
+        run: echo "imprimir variables"

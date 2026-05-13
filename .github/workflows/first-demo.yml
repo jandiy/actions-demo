@@ -116,14 +116,6 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Get build artifacts 
-        uses: actions/download-artifact@v8
-        with:
-           name: dist-files
-
-      - name: see files
-        run: |
-          ls
-
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      artifact-name: dist-files
