@@ -51,6 +51,7 @@ jobs:
 
 
   test:
+    needs: lint
     runs-on: ubuntu-22.04
     steps:
       - name: Get Code 
@@ -101,7 +102,7 @@ jobs:
       - name: Build apk
         run: |
           cd angular
-          npm run 
+          npm run build
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7
