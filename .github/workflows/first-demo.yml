@@ -20,7 +20,7 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: angular/node_modules
           key: deps-node-modules-${{ hashFiles('**/package/lock.json') }}
 
       - name: Install NodeJs 
@@ -62,7 +62,7 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: angular/node_modules
           key: deps-node-modules-${{ hashFiles('**/package/lock.json') }}
 
       - name: Install dependencies
@@ -94,7 +94,7 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: angular/node_modules
           key: deps-node-modules-${{ hashFiles('**/package/lock.json') }}
 
       - name: Install dependencies
