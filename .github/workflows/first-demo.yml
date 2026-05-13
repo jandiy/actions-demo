@@ -7,7 +7,7 @@ on:
  workflow_dispatch: 
 
 jobs:
-  first-job:
+  lint:
     environment: dev
     env: 
      PASS: ${{ secrets.PASS_USER }}
@@ -15,6 +15,13 @@ jobs:
     steps:
       - name: Get Code 
         uses: actions/checkout@v3
+
+      - name: Cache Dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hasFiles('**/package/lock.json') }}
 
       - name: Install NodeJs 
         uses: actions/setup-node@v5
@@ -30,7 +37,7 @@ jobs:
       - name: Run test
         run: |
           cd angular
-          npm test
+          npm run lint
 
       - name: Build apk
         run: |
@@ -38,7 +45,63 @@ jobs:
           npm run build
           echo $PASS
           echo "Usuario: ${{ vars.NAME_USER }}  "
-          echo ${{ secrets.PASS_USER }}
+          echo "${{ secrets.PASS_USER }}"
+
+
+
+  test:
+    needs: lint
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get Code 
+        uses: actions/checkout@v3
+
+      - name: Cache Dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hasFiles('**/package/lock.json') }}
+
+      - name: Install dependencies
+        run: |
+          cd angular
+          npm ci
+
+      - name: Test code
+        run: |
+          cd angular
+          npm run test
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+           name: test-report
+           path: angular/test.json
+
+  build:
+    needs: test
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get Code 
+        uses: actions/checkout@v3
+
+      - name: Cache Dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hasFiles('**/package/lock.json') }}
+
+      - name: Install dependencies
+        run: |
+          cd angular
+          npm ci
+
+      - name: Build apk
+        run: |
+          cd angular
+          npm run 
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7
@@ -47,7 +110,7 @@ jobs:
            path: angular/dist
 
   deploy:
-    needs: first-job
+    needs: build
     runs-on: ubuntu-22.04
     steps:
       - name: Get build artifacts 
