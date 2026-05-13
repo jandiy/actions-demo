@@ -37,7 +37,7 @@ jobs:
           cd angular
           npm run build
           echo $PASS
-          echo "Usuario: ${{ env.NAME_USER }}  "
+          echo "Usuario: ${{ vars.NAME_USER }}  "
           echo ${{ secrets.PASS_USER }}
 
       - name: Upload artifact
